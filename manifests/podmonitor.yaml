@@ -1,0 +1,21 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  labels:
+    release: kube-prometheus-stack
+  name: rdc-metrics-exporter
+  namespace: monitoring
+spec:
+  namespaceSelector:
+    matchNames:
+    - rdc
+  podMetricsEndpoints:
+  - honorLabels: true
+    interval: 10s
+    path: /metrics
+    port: exporter-port
+    scheme: http
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: metrics-exporter
+      daemonset-name: rdc
